@@ -1,0 +1,6 @@
+{
+  "name": "Vashu Studio",
+  "description": "Premium futuristic portfolio and agency website for Vashu Studio specializing in video editing, photo editing, brand design, motion graphics, and content creation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
