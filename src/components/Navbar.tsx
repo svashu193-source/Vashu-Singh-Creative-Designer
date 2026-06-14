@@ -1,10 +1,11 @@
 import React, { useState, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Camera, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Camera, Menu, X, ArrowUpRight, Search } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
   onNavigate: (sectionId: string) => void;
+  onSearchClick: () => void;
 }
 
 const NAV_ITEMS = [
@@ -16,7 +17,7 @@ const NAV_ITEMS = [
   { label: 'Contact', id: 'contact' },
 ];
 
-function Navbar({ activeSection, onNavigate }: NavbarProps) {
+function Navbar({ activeSection, onNavigate, onSearchClick }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -96,8 +97,18 @@ function Navbar({ activeSection, onNavigate }: NavbarProps) {
           })}
         </nav>
 
-        {/* Action Button: Start Project */}
-        <div className="hidden md:block">
+        {/* Action Button: Start Project with Glass Spotlight Trigger */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            id="nav-search-button-trigger"
+            onClick={onSearchClick}
+            className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white/80 hover:text-white hover:border-white/30 text-[10px] font-mono tracking-widest uppercase transition-all duration-300 cursor-pointer focus:outline-none select-none hover:shadow-[0_0_15px_rgba(255,255,255,0.08)]"
+            title="Search and Navigation (⌘K)"
+          >
+            <Search className="w-3.5 h-3.5" />
+            <kbd className="font-sans text-[10px] tracking-normal opacity-50 bg-white/10 px-1 py-0.5 rounded">⌘K</kbd>
+          </button>
+
           <button
             id="nav-cta-button"
             onClick={() => handleItemClick('contact')}
@@ -107,15 +118,26 @@ function Navbar({ activeSection, onNavigate }: NavbarProps) {
           </button>
         </div>
 
-        {/* Mobile menu trigger */}
-        <button
-          id="mobile-menu-trigger"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden flex items-center justify-center w-9 h-9 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors focus:outline-none"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-        </button>
+        {/* Mobile controls duo: Search + Hamburger */}
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            id="mobile-search-button-trigger"
+            onClick={onSearchClick}
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-white/10 transition-all focus:outline-none"
+            aria-label="Open search index"
+          >
+            <Search className="w-4 h-4" />
+          </button>
+
+          <button
+            id="mobile-menu-trigger"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer (Refractive Glassmorphism Panel) */}

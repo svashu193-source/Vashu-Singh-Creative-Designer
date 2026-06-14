@@ -50,20 +50,39 @@ function Hero({ onNavigate }: HeroProps) {
             animate="visible"
           >
             
-            {/* Elegant glass-encased status pill */}
-            <motion.div
-              id="hero-welcome-badge"
-              variants={itemVariants}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-md mb-6"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-              </span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/80">
-                ✦ LUXURY AGENCY 2026
-              </span>
-            </motion.div>
+            {/* Elegant glass-encased status pill & What's New banner */}
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <motion.div
+                id="hero-welcome-badge"
+                variants={itemVariants}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-md"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/80">
+                  ✦ LUXURY AGENCY 2026
+                </span>
+              </motion.div>
+
+              <motion.div
+                id="hero-whats-new-badge"
+                variants={itemVariants}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.08] border border-white/20 hover:border-white/40 active:scale-95 backdrop-blur-md cursor-pointer transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                onClick={() => {
+                  document.getElementById('nav-search-button-trigger')?.click();
+                }}
+              >
+                <Sparkles className="w-3.5 h-3.5 text-white animate-pulse" />
+                <span className="font-mono text-[9px] font-extrabold uppercase tracking-widest text-[#111111] bg-white px-1.5 py-0.5 rounded mr-1">
+                  WHAT'S NEW?
+                </span>
+                <span className="font-sans text-[10.5px] font-medium text-white/90 tracking-wide flex items-center gap-1.5">
+                  Spotlight Search Interface with Details <span className="font-mono text-[9px] text-white/45 bg-white/10 px-1 py-0.5 rounded">⌘K</span>
+                </span>
+              </motion.div>
+            </div>
 
             {/* Main agency mission statement with backstage lights and glows */}
             <div className="relative w-full mb-6 group/headline">

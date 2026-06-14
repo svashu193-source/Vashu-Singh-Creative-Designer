@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import LiquidGlow from './components/LiquidGlow';
 import ScrollHUD from './components/ScrollHUD';
+import SearchInterface from './components/SearchInterface';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import Portfolio from './components/Portfolio';
@@ -12,6 +13,31 @@ import Footer from './components/Footer';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Global keyboard listener for search interface (Cmd+K / Ctrl+K and / key)
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      const activeEl = document.activeElement;
+      const isInputActive = activeEl && (
+        activeEl.tagName === 'INPUT' || 
+        activeEl.tagName === 'TEXTAREA' || 
+        activeEl.getAttribute('contenteditable') === 'true'
+      );
+
+      if (
+        ((e.metaKey && e.key?.toLowerCase() === 'k') || 
+         (e.ctrlKey && e.key?.toLowerCase() === 'k')) ||
+        (e.key === '/' && !isInputActive)
+      ) {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   // Smooth scroll handler targeting specific element indices
   const handleNavigate = useCallback((sectionId: string) => {
@@ -77,8 +103,19 @@ export default function App() {
       {/* Modern Interactive Scroll HUD with Custom Section Tracker */}
       <ScrollHUD activeSection={activeSection} onNavigate={handleNavigate} />
 
+      {/* Modern Interactive Search/Spotlight command palette overlay */}
+      <SearchInterface 
+        isOpen={searchOpen} 
+        onClose={useCallback(() => setSearchOpen(false), [])} 
+        onNavigate={handleNavigate} 
+      />
+
       {/* Floating Liquid-Glass sticky navigation bar */}
-      <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
+      <Navbar 
+        activeSection={activeSection} 
+        onNavigate={handleNavigate} 
+        onSearchClick={useCallback(() => setSearchOpen(true), [])} 
+      />
 
       {/* Sequential sections maps */}
       <main id="creative-lab-content" className="relative z-10">
